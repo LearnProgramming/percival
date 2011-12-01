@@ -1,0 +1,28 @@
+loose plan:
+
+
+# rallyclock linkup.
+
+- percy starts watching you when you tell him to (`!clock in <project ||= same_as_last_project>`)
+- percy watches when you go out (`!clock out`)
+- percy sees you when you leave (watch for disconnect for some threshold period of time, eg, 5 minutes) 
+  * should set clock out time to the time it saw you leave, not the time when
+    the threshold is up
+- percy sends you an email if it notices an "outlier" time
+  * eg, if a time is more than `k` std devs from your normal time for a day,
+    percy should send you some notice.
+- percy persists all this data independent of his process. So if percy crashes,
+  the data isn't lost.
+
+# CI linkup 
+
+- percy happily reports new build statuses as they come in
+- percy hollars when an error is detected.
+
+# Github linkup
+
+- ???
+
+# Airbrake / live error linkup
+
+- ???
