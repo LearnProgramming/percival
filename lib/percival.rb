@@ -1,5 +1,3 @@
-require "percival/version"
+require 'percival/version'
+require 'percival/clock'
 
-module Percival
-  # Your code goes here...
-end
