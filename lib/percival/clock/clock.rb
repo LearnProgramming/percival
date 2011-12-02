@@ -1,6 +1,6 @@
 
 class Clock
-  def execute
+  def self.reset!(user_name)
 
   end
 end
