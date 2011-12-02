@@ -16,4 +16,6 @@ class Clock
 
   end
 
+  def execute(irc, status)
+  end
 end
