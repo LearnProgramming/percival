@@ -5,6 +5,12 @@ require './lib/percival'
 class IrcFaker
   def initialize(irc_mock)
     @irc_mock = irc_mock
+    @expectation = {}
+  end
+
+  def plugins(*plugins)
+    @plugins = plugins
+    self
   end
   
   def send_message(msg)
@@ -20,9 +26,12 @@ class IrcFaker
     self
   end
 
-  def done
+  def run! 
     @irc_mock.stub!(:user).and_return(@sender) #a sort of lo-fi mock of the Cinch "user" object
-    Clock.new.execute(@irc_mock, *@message_args)
+    @irc_mock.stub!(:reply) # ignore outgoing replies
+    @plugins.each do |plugin|
+      plugin.execute(@irc_mock, *@message_args)
+    end
     nil
   end
 end

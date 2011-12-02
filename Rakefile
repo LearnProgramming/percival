@@ -10,5 +10,5 @@ RSpec::Core::RakeTask.new
 task :c => :console
 desc "start up a irb console"
 task :console do
-  system 'bundle exec irb'
+  system 'bundle exec pry'
 end
