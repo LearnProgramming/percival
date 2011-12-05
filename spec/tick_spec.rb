@@ -4,7 +4,7 @@ describe Tick do
 
 end
 
-describe "Tick class methods" do
+describe Tick do #class methods
   subject { Tick } 
 
   describe ".in" do
