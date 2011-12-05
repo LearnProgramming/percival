@@ -8,11 +8,11 @@ class Clock
   end
 
   def clock_in(username)
-    Timesheet.entry(username, :in)
+    timesheet_manager.entry(username, :in, )
   end
 
   def clock_out(username)
-    Timesheet.entry(username, :out)
+    timesheet_manager.entry(username, :out)
   end
 
   def execute(irc, status)
@@ -25,4 +25,11 @@ class Clock
       irc.reply "USAGE: !clock <in|out>"
     end
   end
+
+  def initialize(timesheet_manager = Timesheet)
+    @timesheet_manager = timesheet_manager
+  end
+
+  private
+  attr_reader :timesheet_manager
 end

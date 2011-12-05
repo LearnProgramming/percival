@@ -19,9 +19,6 @@ class Timesheet
   end
 
   def write_to_timesheet(string)
-    #dirty hack -- there should be a way to get File to do this...
-    # -- jgf 12/05/11
-    system "touch #{timesheet_path}"
     reader.open(timesheet_path, 'w') do |f|
       f << string
     end

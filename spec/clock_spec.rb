@@ -1,12 +1,16 @@
 require 'spec_helper'
 
 describe Clock do
+
   let(:cinch_mock) { 
     mock(:cinch).tap do |m|
       m.stub!(:reply)
     end
   }
 
+  let(:timesheet) { mock("timesheet class").tap { |t| t.stub!(:entry) } }
+
+  subject { Clock.new(timesheet) } 
 
   it { should respond_to :clock_in }
   describe "#clock_in" do
@@ -15,7 +19,7 @@ describe Clock do
     end
 
     it "should create a tick on the user's timesheet" do
-      Timesheet.
+      timesheet.
         should_receive(:entry).
         with('test_user', :in)
 
@@ -30,10 +34,9 @@ describe Clock do
     end
 
     it "should create a tick on the user's timesheet" do
-      Timesheet.
+      timesheet.
         should_receive(:entry).
         with('test_user', :out)
-
       subject.clock_out('test_user')
     end
   end
