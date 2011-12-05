@@ -7,11 +7,8 @@ describe Clock do
     end
   }
 
-  it { should respond_to :execute }
-  it "takes at least two arguments for execute" do
-    expect { subject.execute(cinch_mock, "subcommand") }.should_not raise_error
-  end
 
+  it { should respond_to :clock_in }
   describe "#clock_in" do
     it "takes a username as an argument" do
       expect { subject.clock_in("test_username") }.should_not raise_error
@@ -26,6 +23,7 @@ describe Clock do
     end
   end
 
+  it { should respond_to :clock_out }
   describe "#clock_out" do
     it "takes a username as an argument" do
       expect { subject.clock_out("test_username") }.should_not raise_error
@@ -40,8 +38,30 @@ describe Clock do
     end
   end
 
-  describe "#execute(m)" do
-    
+  it { should respond_to :execute }
+  describe "#execute(m, type)" do
+
+    it "takes at least two arguments for execute" do
+      expect { subject.execute(cinch_mock, "subcommand") }.should_not raise_error
+    end
+
+    it "should clock you in when you pass it the type 'in'" do
+      subject.should_receive(:clock_in).with('test_user')
+      cinch_mock.stub!(:user).and_return('test_user')
+      subject.execute(cinch_mock, 'in') 
+    end
+
+    it "should clock you out when you pass it the type 'out'" do
+      subject.should_receive(:clock_out).with('test_user')
+      cinch_mock.stub!(:user).and_return('test_user')
+      subject.execute(cinch_mock, 'out') 
+    end
+
+    it "should respond with a usage message if you try to use an invalid type" do
+      cinch_mock.stub!(:user).and_return('test_user')
+      cinch_mock.should_receive(:reply).with("USAGE: !clock <in|out>")
+      subject.execute(cinch_mock, 'flurble') 
+    end
   end
 end
 
@@ -68,7 +88,6 @@ describe Clock do #class methods
     it "returns the tick object in chronological order"
 
   end
-
 
 end
 
@@ -110,7 +129,6 @@ describe "Using the !clock command to clock in and out" do
 
   it "tells me the command usage information if I pass an incorrect subcommand" do
     cinch_mock.should_receive(:reply).with("USAGE: !clock <in|out>")
-
     channel.
       plugins(subject.new).
       send_message("!clock WRONG").
