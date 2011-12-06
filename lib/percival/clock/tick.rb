@@ -1,5 +1,7 @@
 require 'yaml'
 class Tick
+  include Comparable
+
   def self.in
     new(Time.now, :in)
   end
@@ -20,6 +22,10 @@ class Tick
 
   def ==(other)
     self.dump == other.dump
+  end
+
+  def <=>(other)
+    time <=> other.send(:time) #a little bit cheaty
   end
 
   def initialize(time, type)

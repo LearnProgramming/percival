@@ -1,14 +1,14 @@
 class Clock
-  def self.reset!(user_name)
+  def self.reset!(username)
 
   end
 
-  def self.for(user_name)
-    []
+  def for(username)
+    (timesheet_manager.for(username) || []).sort
   end
 
   def clock_in(username)
-    timesheet_manager.entry(username, :in, )
+    timesheet_manager.entry(username, :in)
   end
 
   def clock_out(username)
@@ -32,4 +32,8 @@ class Clock
 
   private
   attr_reader :timesheet_manager
+end
+
+def Clock(timesheet_manager = Timesheet) 
+  Clock.new(timesheet_manager) 
 end

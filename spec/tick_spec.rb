@@ -20,7 +20,12 @@ describe Tick do
       tick2 = Tick.new(Time.now + 1, :in)
       tick1.should_not == tick2
     end
+  end
 
+  describe "<=>" do
+    it "determines inequality by timestamp" do
+      Tick.new(Time.now + 50, :in).should be > Tick.new(Time.now - 50, :out)
+    end
   end
 end
 

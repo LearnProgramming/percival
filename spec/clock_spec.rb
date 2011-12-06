@@ -8,7 +8,12 @@ describe Clock do
     end
   }
 
-  let(:timesheet) { mock("timesheet class").tap { |t| t.stub!(:entry) } }
+  let(:timesheet) {
+    mock("timesheet class").tap { |t| 
+      t.stub!(:entry) 
+      t.stub!(:for)
+    } 
+  }
 
   subject { Clock.new(timesheet) } 
 
@@ -66,32 +71,40 @@ describe Clock do
       subject.execute(cinch_mock, 'flurble') 
     end
   end
-end
 
-describe Clock do #class methods
-  subject { Clock }
-  
-  describe ".reset!(user)" do
-    it "takes a single user as an argument" do
-      expect { subject.reset!("foo") }.should_not raise_error
-    end
-  end
-
-  describe ".for(user)" do
+  describe "#for(user)" do
     it "takes a single user as an argument" do
       expect { subject.for("foo") }.should_not raise_error
     end
 
     it "should return an empty list if no ticks are present" do
+      timesheet.should_receive(:for).with('foo').and_return([])
       subject.for("foo").should == []
     end
 
-    it "returns all the clock-tick objects for a given user" 
+    it "returns all the clock-tick objects for a given user" do
+      timesheet.should_receive(:for).with('test_user') 
+      subject.for('test_user')
+    end
 
-    it "returns the tick object in chronological order"
-
+    it "returns the tick object in chronological order" do
+      fake_times = [Tick.new(Time.now + 60, :out), Tick.new(Time.now - 60, :in)]
+      timesheet.should_receive(:for).with('test_user').and_return(fake_times)
+      subject.for('test_user').should == fake_times.reverse #the above times are in reverse order
+    end
   end
+end
 
+describe Clock do #class methods
+  subject { Clock }
+  
+  let(:timesheet) { mock("timesheet class").tap { |t| t.stub!(:entry) } }
+
+  describe ".reset!(user)" do
+    it "takes a single user as an argument" do
+      expect { subject.reset!("foo") }.should_not raise_error
+    end
+  end
 end
 
 
@@ -139,10 +152,20 @@ describe "Using the !clock command to clock in and out" do
     run!
   end
 
-  pending "design" do
+  pending ":: waiting for design" do
     it "allows for review and editing of times for a given day"
 
     it "messages you if your time is out of the ordinary via email"
   end
 end
 
+describe "Clock as a method" do
+  it "should be an alias for Clock.new" do
+    Clock.should_receive(:new).with(Timesheet).once
+    Clock()
+
+    mock = mock("timesheet")
+    Clock.should_receive(:new).with(mock).once
+    Clock(mock)
+  end
+end
