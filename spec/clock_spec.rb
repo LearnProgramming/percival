@@ -105,6 +105,8 @@ describe Clock do #class methods
       expect { subject.reset!("foo") }.should_not raise_error
     end
   end
+
+  its(:included_modules) { should include(Cinch::Plugin) }
 end
 
 

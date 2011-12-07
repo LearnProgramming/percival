@@ -1,4 +1,6 @@
 class Clock
+  include Cinch::Plugin
+
   def self.reset!(username)
 
   end
