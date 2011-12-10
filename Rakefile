@@ -12,3 +12,24 @@ desc "start up a irb console"
 task :console do
   system 'bundle exec pry'
 end
+
+
+desc "start percival, connect to all channels in the CHANNELS env var" 
+task :start do
+  system 'mkdir -p data/timesheets/'
+  channels = ENV["CHANNELS"].split(/,\s*/)
+  server = 'irc.freenode.net'
+
+  require 'percival'
+
+  bot = Cinch::Bot.new do
+    configure do |c|
+      c.server = server
+      c.channels = channels
+      c.nick = 'percival'
+      c.plugins.plugins = [ClockPlugin]
+    end
+  end
+
+  bot.start
+end

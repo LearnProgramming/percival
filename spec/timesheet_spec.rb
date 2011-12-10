@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Timesheet do #class methods
   subject { Timesheet } 
   
-  let(:reader) { mock("reader").tap { |r| r.stub!(:open) ; r.stub!(:read) } }
+  let(:reader) { mock("reader").tap { |r| r.stub!(:open) ; r.stub!(:read) ; r.stub!(:exists?).and_return(true) } }
   let(:invalid_reader) { mock("invalid reader") }
 
   it { should respond_to :entry }
@@ -19,11 +19,6 @@ describe Timesheet do #class methods
     end
 
     it "should throw an error if you try to make the same entry type twice in a row" do
-      fake_initial_data =<<-HERE
---- !ruby/object:Tick
-time: 2011-12-06 08:19:22.174495000 -05:00
-type: :out
-      HERE
       fake_data_after_clockin =<<-HERE
 --- !ruby/object:Tick
 time: 2011-12-06 08:19:22.174495000 -05:00
@@ -32,6 +27,7 @@ type: :out
 --- !ruby/object:Tick
 time: 2011-12-06 08:23:00.546090000 -05:00
 type: :in
+
       HERE
 
       expect do

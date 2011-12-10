@@ -2,6 +2,7 @@ class Timesheet
   def self.entry(user, type, reader=File)
     raise "Reader dependency must respond to #open" unless reader.respond_to? :open
     raise "Reader dependency must respond to #read" unless reader.respond_to? :read
+    raise "Reader dependency must respond to #exists?" unless reader.respond_to? :exists?
 
     new(user, reader).clock(type)
   end
@@ -10,6 +11,8 @@ class Timesheet
     raise InvalidTimesheetSequence if type == previous_type
     write_to_timesheet(Tick.send(type).dump)
   end
+
+
 
   private
 
@@ -23,13 +26,13 @@ class Timesheet
   def write_to_timesheet(string)
     reader.open(timesheet_path, 'a') do |f|
       f << string
-      f << '\n'
+      f << "\n"
     end
     self
   end
 
   def timesheet_data 
-    raw_data = reader.read(timesheet_path)
+    raw_data = reader.read(timesheet_path) if reader.exists?(timesheet_path)
     return [] unless raw_data
     
     entries = []
@@ -42,7 +45,6 @@ class Timesheet
         entry << line
       end
     end
-    entries << YAML.load(entry) #catches the last entry on the list (one which is not trailed by an empty line)
 
     entries
   end
@@ -51,7 +53,7 @@ class Timesheet
     last_entry = (timesheet_data || []).sort.last
     #another minor hack -- I want a "only other instances of myself need to
     #access this for comparison purposes" protection level.
-    last_entry && last_entry.send(:type) 
+    last_entry.send(:type) if last_entry
   end
 
   def timesheet_path
