@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 describe "The Clock plugin" do
   let(:channel) do 
     IrcFaker.new(cinch_mock)
@@ -46,9 +45,28 @@ describe "The Clock plugin" do
 
       channel.
         plugins(plugin_instance).
-        send_message("!clock WRONG").
+        send_message("!clock wrong").
         as("test_user").
       run!
+    end
+
+    it "stores what I worked on when I tell it `!clock summary -- <some summary>`" do
+      pending "wip"
+      subject.should_receive(:clock_summary_create).with('this is a summary')
+
+      channel.
+        plugins(plugin_instance).
+        send_message("!clock summary -- this is a summary").
+        as("test_user").
+      run!
+    end
+
+    it "should print out a summary of what I worked on for the last week when I tell it `!clock summary`" do
+      pending
+    end
+
+    it "should print out a summary of what I worked on going back to the given date when I tell it `!clock summary --since <some date>`" do
+      pending
     end
   end
 
