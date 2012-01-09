@@ -1,0 +1,4 @@
+describe Logger do
+
+end
+
