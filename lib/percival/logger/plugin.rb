@@ -1,20 +1,29 @@
+require 'forwardable'
 class LoggerPlugin
   include Cinch::Plugin
+  extend Forwardable
 
-  prefix ""
-  match /(.*)/
+  listen_to(
+    :join, :leaving, 
+    :message, 
+    :op, :deop, :halfop, :dehalfop, :owner, :deowner,
+    :ban, :unban,
+    :kick, 
+    :away, :unaway,
+    :voice, :devoice 
+  )
 
-  def execute(irc, message)
-    @logger ||= Logger.new
-    log(irc.user, message)
+  timer 15, method: :flush
+
+  def listen(irc)
+    log(irc.user, irc.message, irc.command)
   end
 
-  def intiialize
-    super
-  end
+  private 
 
+  delegate [:flush, :log] => :logger
 
-  def log(user, message)
-    @logger.log(user, message)
+  def logger
+    @logger ||= Logger.new 
   end
 end
