@@ -15,7 +15,7 @@ class LoggerPlugin
 
   timer 15, method: :flush
 
-  def listen(irc)
+  def listen(irc, *_)
     log(irc.user, irc.message, irc.command)
   end
 
