@@ -1,11 +1,14 @@
+require 'rubygems'
+require 'bundler/setup'
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
-require 'bundler/setup'
 
 task :default => :spec
 
 desc "Run specs"
-RSpec::Core::RakeTask.new
+RSpec::Core::RakeTask.new do |task|
+  task.rspec_opts = ["-c", "-f progress"]
+end
 
 
 task :c => :console
