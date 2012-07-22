@@ -1,28 +1,24 @@
 class ChannelChangerPlugin
   include Cinch::Plugin
 
-  match /!join-channel\s+(\S+)/, :method => :join
-  match /!leave-channel(\s+(\S+))?/, :method => :leave
+  match /join-channel\s+(\S+)/, :method => :join
+  match /leave-channel(\s+(\S+))?/, :method => :leave
     
-  
-  def leave msg, space, channel
+  #TODO: get rid of the 'space' var
+  #TODO: inform if there is an error
+  def leave irc, space, channel
     channel = channel.nil? ? irc.channel : Channel(channel)
-    channel.kick(bot.user)
+    bot.part(channel)
   end
   
-  def join msg, channel
-    print "here is channel #{channel}\n"
+  #TODO: inform if there is an error
+  def join irc, channel
     Channel(channel).join()
   end
-  
-  # def switch msg
-  #   leave msg
-  #   join msg
-  # end
-  
 
   private 
-
+  
+  #TODO: how do we manange user privilages concerning the bot
   def channel_changer_user
     User("colwem")
   end
