@@ -1,3 +1,14 @@
+
+class User
+
+  roles = [:channel => ["colwem", "jfredett"]]
+  
+  def role? role
+    roles[role].include? self
+  end
+end
+
+
 class ChannelChangerPlugin
   include Cinch::Plugin
 
@@ -7,13 +18,15 @@ class ChannelChangerPlugin
   #TODO: get rid of the 'space' var
   #TODO: inform if there is an error
   def leave irc, space, channel
-    channel = channel.nil? ? irc.channel : Channel(channel)
-    bot.part(channel)
+    if irc.user.role? :channel
+      channel = channel.nil? ? irc.channel : Channel(channel)
+      bot.part(channel) 
+    end
   end
   
   #TODO: inform if there is an error
   def join irc, channel
-    Channel(channel).join()
+    Channel(channel).join() if irc.user.role? :channel
   end
 
   private 
@@ -24,3 +37,6 @@ class ChannelChangerPlugin
   end
   
 end
+ 
+
+
