@@ -8,3 +8,7 @@ tmp/*
 coverage/
 data/
 .rbx
+
+#emacs files 
+\#*
+.#*
