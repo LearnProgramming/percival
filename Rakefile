@@ -21,9 +21,11 @@ end
 desc "start percival, connect to all channels in the CHANNELS env var" 
 task :start do
   system 'mkdir -p data/timesheets/'
-  channels = ENV["CHANNEL"] and ENV["CHANNELS"].split(/,\s*/) or "#lpmc-bot"
-  nick = ENV["NICK"] or "percival"
+  channels = ENV["CHANNEL"] and ENV["CHANNEL"].split(/,\s*/) || "#lpmc-bot"
+  nick = ENV["NICK"] || "percival"
   server = 'irc.freenode.com'
+  print ENV["NICK"].to_s + " that was env[nick]\n"
+  print "#{nick} that was nick\n"
 
   require 'percival'
 
