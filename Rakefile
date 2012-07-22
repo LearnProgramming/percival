@@ -34,6 +34,10 @@ task :start do
       c.nick = nick
       c.plugins.plugins = [ClockPlugin, LoggerPlugin, ChannelChangerPlugin]
     end
+    
+    on :message, "hello" do |m|
+      m.reply "Hello, #{m.user.nick}"
+    end
   end
 
   bot.start
