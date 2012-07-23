@@ -1,46 +1,31 @@
-
-class Cinch::User
-
-  roles = [:channel => ["colwem", "jfredett"]]
-  
-  def role? role
-    roles[role].include? self
-  end
-end
-
-
-
-
+#TODO: catch name of bot and confirm that message was for me
 class ChannelChangerPlugin
   include Cinch::Plugin
-
+  
+  @@roles = {channel: ["colwem", "jfredett"]}  
+  
   match /join-channel\s+(\S+)/, :method => :join
   match /leave-channel(\s+(\S+))?/, :method => :leave
-    
+  
   #TODO: get rid of the 'space' var
   #TODO: inform if there is an error
   def leave irc, space, channel
-    debug "User.ancestors #{Cinch::User}\n"
-    debug "irc.user.class.ancestors #{irc.user.class.ancestors}\n"
-    if irc.user.role? :channel
+    if role? irc.user, :channel
       channel = channel.nil? ? irc.channel : Channel(channel)
       bot.part(channel) 
     end
   end
-  
+
+  #TODO: confirm success or failure
   #TODO: inform if there is an error
   def join irc, channel
-    Channel(channel).join() if irc.user.role? :channel
-  end
-
-  private 
-  
-  #TODO: how do we manange user privilages concerning the bot
-  def channel_changer_user
-    User("colwem")
+    Channel(channel).join() if role? irc.user, :channel
   end
   
+  def role? user, role
+    @@roles[role].map {|u| User(u)}.include? user
+  end
 end
- 
+
 
 
