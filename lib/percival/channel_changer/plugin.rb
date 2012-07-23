@@ -1,5 +1,5 @@
 
-class User
+class Cinch::User
 
   roles = [:channel => ["colwem", "jfredett"]]
   
@@ -7,6 +7,8 @@ class User
     roles[role].include? self
   end
 end
+
+
 
 
 class ChannelChangerPlugin
@@ -18,6 +20,8 @@ class ChannelChangerPlugin
   #TODO: get rid of the 'space' var
   #TODO: inform if there is an error
   def leave irc, space, channel
+    debug "User.ancestors #{Cinch::User}\n"
+    debug "irc.user.class.ancestors #{irc.user.class.ancestors}\n"
     if irc.user.role? :channel
       channel = channel.nil? ? irc.channel : Channel(channel)
       bot.part(channel) 
