@@ -1,8 +1,7 @@
 #TODO: catch name of bot and confirm that message was for me
 class ChannelChangerPlugin
   include Cinch::Plugin
-  
-  
+    
   match /join-channel\s+(\S+)/, :method => :join
   match /leave-channel(?:\s+(\S+))?/, :method => :leave
 
@@ -17,7 +16,7 @@ class ChannelChangerPlugin
   #TODO: get rid of the 'space' var
   #TODO: inform if there is an error
   def leave irc, channel
-    if UserRole.approved? irc.user, :channel
+    if UserRole.approved? irc.user, :channel_changer
       channel ||= irc.channel
       Channel(channel).part 
     end
@@ -26,7 +25,7 @@ class ChannelChangerPlugin
   #TODO: confirm success or failure
   #TODO: inform if there is an error
   def join irc, channel
-    Channel(channel).join() if UserRole.approved? irc.user, :channel
+    Channel(channel).join() if UserRole.approved? irc.user, :channel_changer
   end
 end
 

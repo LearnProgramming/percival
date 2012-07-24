@@ -32,7 +32,10 @@ task :start do
       c.server = server
       c.channels = channels
       c.nick = nick
-      c.plugins.plugins = [ClockPlugin, LoggerPlugin, ChannelChangerPlugin]
+      c.plugins.plugins = [ClockPlugin,
+                           LoggerPlugin,
+                           ChannelChangerPlugin,
+                           NameChangerPlugin]
     end
     
     #just to check if he's responding
