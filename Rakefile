@@ -34,8 +34,8 @@ task :start do
       c.nick = nick
       c.plugins.plugins = [ClockPlugin, LoggerPlugin, ChannelChangerPlugin]
     end
-
     
+    #just to check if he's responding
     on :message, "hello" do |m|
       m.reply "Hello, #{m.user.nick}"
     end
