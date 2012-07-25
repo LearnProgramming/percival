@@ -8,7 +8,7 @@ Forked by SirSkidmore
 To run:
 
     bundle
-    CHANNELS="#comma, #separated, #list" rake start
+    SERVER="irc.nameofserver.com" CHANNELS="#comma, #separated, #list" rake start
 
 
 
