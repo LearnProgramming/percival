@@ -18,11 +18,11 @@ task :console do
 end
 
 
-desc "start percival, connect to all channels in the CHANNELS env var" 
+desc "start percival, connect to all channels in the CHANNELS env var, connect to server in SERVER env var" 
 task :start do
   system 'mkdir -p data/timesheets/'
   channels = ENV["CHANNELS"].split(/,\s*/)
-  server = 'irc.freenode.com'
+  server = ENV["SERVER"]
 
   require 'percival'
 
