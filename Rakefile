@@ -24,6 +24,10 @@ task :start do
   channels = ENV["CHANNELS"].split(/,\s*/)
   server = ENV["SERVER"]
 
+  if server.nil?
+    server = 'irc.freenode.com'
+  end
+
   require 'percival'
 
   bot = Cinch::Bot.new do
