@@ -9,13 +9,13 @@ describe Timesheet do #class methods
   it { should respond_to :entry }
   describe "#entry" do
     it "should take a username and a tick-type as an argument to .entry" do
-      expect { subject.entry('test_user', :in, reader) }.should_not raise_error
-      expect { subject.entry('test_user', :out, reader) }.should_not raise_error
+      expect { subject.entry('test_user', :in, reader) }.to_not raise_error
+      expect { subject.entry('test_user', :out, reader) }.to_not raise_error
     end
 
     it "optionally expects a dependency which responds to #open and #read" do
-      expect { subject.entry('test', :in, reader) }.should_not raise_error
-      expect { subject.entry('test', :in, invalid_reader) }.should raise_error
+      expect { subject.entry('test', :in, reader) }.to_not raise_error
+      expect { subject.entry('test', :in, invalid_reader) }.to raise_error
     end
 
     it "should throw an error if you try to make the same entry type twice in a row" do
@@ -35,7 +35,7 @@ type: :in
         reader.stub(:read).and_return(fake_data_after_clockin)
 
         subject.entry('test', :in, reader)
-      end.should raise_error InvalidTimesheetSequence
+      end.to raise_error InvalidTimesheetSequence
     end
   end
 

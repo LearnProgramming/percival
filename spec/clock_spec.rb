@@ -20,7 +20,7 @@ describe Clock do
   it { should respond_to :clock_in }
   describe "#clock_in" do
     it "takes a username as an argument" do
-      expect { subject.clock_in("test_username") }.should_not raise_error
+      expect { subject.clock_in("test_username") }.to_not raise_error
     end
 
     it "should create a tick on the user's timesheet" do
@@ -35,7 +35,7 @@ describe Clock do
   it { should respond_to :clock_out }
   describe "#clock_out" do
     it "takes a username as an argument" do
-      expect { subject.clock_out("test_username") }.should_not raise_error
+      expect { subject.clock_out("test_username") }.to_not raise_error
     end
 
     it "should create a tick on the user's timesheet" do
@@ -49,7 +49,7 @@ describe Clock do
 
   describe "#for(user)" do
     it "takes a single user as an argument" do
-      expect { subject.for("foo") }.should_not raise_error
+      expect { subject.for("foo") }.to_not raise_error
     end
 
     it "should return an empty list if no ticks are present" do
