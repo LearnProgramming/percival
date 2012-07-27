@@ -22,7 +22,7 @@ task :start do
   system 'mkdir -p data/timesheets/'
   channels = ENV["CHANNELS"].split(/,\s*/)
   server = ENV["SERVER"] || "irc.freenode.com"
-	nick = ENV["NICK"] || "percival"  
+  nick = ENV["NICK"] || "percival"  
 
   require 'percival'
 
@@ -34,9 +34,9 @@ task :start do
       c.plugins.plugins = [ClockPlugin, LoggerPlugin]
     end
 
-		on :message, "hello" do |m|
-			m.reply "Hello, #{m.user.nick}"
-		end
+    on :message, "hello" do |m|
+      m.reply "Hello, #{m.user.nick}"
+    end
   end
 
   bot.start
