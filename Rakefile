@@ -17,7 +17,7 @@ task :console do
 end
 
 
-desc "start percival, connect to all channels in the CHANNELS env var, connect to server in SERVER env var" 
+desc "start percival, connect to all channels in the CHANNELS env var, connect to server in SERVER env var, set nick to nick" 
 task :start do
   system 'mkdir -p data/timesheets/'
   channels = ENV["CHANNELS"].split(/,\s*/)
@@ -32,10 +32,6 @@ task :start do
       c.channels = channels
       c.nick = nick
       c.plugins.plugins = [ClockPlugin, LoggerPlugin]
-    end
-
-    on :message, "hello" do |m|
-      m.reply "Hello, #{m.user.nick}"
     end
   end
 
