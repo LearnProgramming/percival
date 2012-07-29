@@ -10,7 +10,6 @@ RSpec::Core::RakeTask.new do |task|
   task.rspec_opts = ["-c", "-f progress"]
 end
 
-
 task :c => :console
 desc "start up a irb console"
 task :console do
@@ -18,11 +17,12 @@ task :console do
 end
 
 
-desc "start percival, connect to all channels in the CHANNELS env var" 
+desc "start percival, connect to all channels in the CHANNELS env var, connect to server in SERVER env var, set nick to nick" 
 task :start do
   system 'mkdir -p data/timesheets/'
   channels = ENV["CHANNELS"].split(/,\s*/)
-  server = 'irc.freenode.com'
+  server = ENV["SERVER"] || "irc.freenode.com"
+  nick = ENV["NICK"] || "percival"  
 
   require 'percival'
 
@@ -30,7 +30,7 @@ task :start do
     configure do |c|
       c.server = server
       c.channels = channels
-      c.nick = 'percival'
+      c.nick = nick
       c.plugins.plugins = [ClockPlugin, LoggerPlugin]
     end
   end
