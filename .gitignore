@@ -8,3 +8,6 @@ tmp/*
 coverage/
 data/
 .rbx
+
+*.swp
+*~

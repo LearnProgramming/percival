@@ -67,7 +67,7 @@ describe "The Clock plugin" do
       it { should respond_to :execute }
       describe "#execute(m, type)" do
         it "takes at least two arguments for execute" do
-          expect { subject.execute(cinch_mock, "subcommand") }.should_not raise_error
+          expect { subject.execute(cinch_mock, "subcommand") }.to_not raise_error
         end
 
         it "should clock you in when you pass it the type 'in'" do
