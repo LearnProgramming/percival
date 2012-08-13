@@ -34,7 +34,8 @@ task :start do
       c.nick = nick
       c.plugins.plugins = [ClockPlugin,
                            LoggerPlugin,
-                           ChannelChangerPlugin]
+                           ChannelChangerPlugin,
+                           NameChangerPlugin]
     end
   end
 
