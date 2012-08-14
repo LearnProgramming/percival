@@ -9,5 +9,11 @@ coverage/
 data/
 .rbx
 
+
 *.swp
 *~
+
+#emacs files 
+\#*
+.#*
+
