@@ -21,6 +21,7 @@ end
 desc "start percival, connect to all channels in the CHANNELS env var" 
 task :start do
   system 'mkdir -p data/timesheets/'
+  system 'mkdir -p data/quotelists/'
   channels = ENV["CHANNELS"] && ENV["CHANNELS"].split(/,\s*/) || ["#lpmc-bot"]
   nick = ENV["NICK"] || "percival"
   server = 'irc.freenode.com'
@@ -35,7 +36,8 @@ task :start do
       c.plugins.plugins = [ClockPlugin,
                            LoggerPlugin,
                            ChannelChangerPlugin,
-                           NameChangerPlugin]
+                           NameChangerPlugin,
+                           QuotePlugin]
     end
   end
 
