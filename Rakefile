@@ -35,9 +35,9 @@ task :start do
       c.plugins.plugins = [ClockPlugin,
                            LoggerPlugin,
                            ChannelChangerPlugin,
-                           NameChangerPlugin]
+                           NameChangerPlugin,
+                           ConnectFourPlugin]
     end
   end
-
   bot.start
 end
