@@ -21,6 +21,7 @@ end
 desc "start percival, connect to all channels in the CHANNELS env var" 
 task :start do
   system 'mkdir -p data/timesheets/'
+  system 'mkdir -p data/quotelists/'
   channels = ENV["CHANNELS"].split(/,\s*/)
   server = 'irc.freenode.com'
 
@@ -31,7 +32,7 @@ task :start do
       c.server = server
       c.channels = channels
       c.nick = 'percival'
-      c.plugins.plugins = [ClockPlugin, LoggerPlugin]
+      c.plugins.plugins = [ClockPlugin, LoggerPlugin, QuotePlugin]
     end
   end
 
