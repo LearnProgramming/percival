@@ -6,16 +6,20 @@ class Quotelist
     end
   end
 
-  def self.get_random_quote()
+  def self.random_quote
     file = Dir.glob(PERCIVAL_ROOT + path_to_quotelists + '*').sample
-    if file.nil?
-      raise "No quotes found"
-    end
-    get_random_line file
+    raise "No QuoteFiles found" if file.nil?
+    random_line file
   end
 
-  def self.get_quote_by(user)
-    get_random_line(quotelist_path user)
+  def self.quote_by(user)
+    random_line(quotelist_path user)
+  end
+
+  private
+
+  def self.random_line(file)
+    File.readlines(file).sample
   end
 
   def self.quotelist_path(user)
@@ -24,12 +28,6 @@ class Quotelist
 
   def self.path_to_quotelists
     "/data/quotelists/" 
-  end
-
-  private
-
-  def self.get_random_line(file)
-    File.readlines(file).sample
   end
 
   def self.check_reader_validity(reader)
